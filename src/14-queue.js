@@ -24,7 +24,6 @@ class Queue {
 
   enqueue(element) {
     const newNode = new ListNode(element);
-    newNode.value = element;
     if (this.length === 0) {
       this.head = newNode;
       this.tail = newNode;
