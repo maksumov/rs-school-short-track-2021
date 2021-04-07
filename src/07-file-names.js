@@ -13,8 +13,28 @@
  * the output should be ["file", "file(1)", "image", "file(1)(1)", "file(2)"]
  *
  */
-function renameFiles(/* names */) {
-  throw new Error('Not implemented');
+
+/**
+ * Helper for select uniq filename
+ * @param {String} name - name of file for which we should select uniq name
+ * @param {String[]} reserved - array of existing (reserved) filenames
+ * @returns uniq file name
+ */
+function selectName(name, reserved) {
+  if (!reserved.includes(name)) return name;
+  let suffix = 1;
+  while (reserved.includes(`${name}(${suffix})`)) {
+    suffix += 1;
+  }
+  return `${name}(${suffix})`;
+}
+
+function renameFiles(names) {
+  const uniq = [];
+  names.forEach((file) => {
+    uniq.push(selectName(file, uniq));
+  });
+  return uniq;
 }
 
 module.exports = renameFiles;
