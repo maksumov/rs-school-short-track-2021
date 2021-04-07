@@ -20,8 +20,20 @@
  * }
  *
  */
-function getDNSStats(/* domains */) {
-  throw new Error('Not implemented');
+function getDNSStats(domains) {
+  return domains
+    .map((domain) => domain
+      .split('.')
+      .reduceRight(
+        (a, c) => ({ arr: [...a.arr, `${a.d}.${c}`], d: `${a.d}.${c}` }),
+        { arr: [], d: '' },
+      )
+      .arr)
+    .reduce((a, c) => a.concat(c), [])
+    .reduce((a, c) => (Object.keys(a).includes(c)
+      ? { ...a, [c]: a[c] + 1 }
+      : { ...a, [c]: 1 }),
+    {});
 }
 
 module.exports = getDNSStats;
